@@ -58,12 +58,13 @@ std::shared_ptr<Node> BST::search(std::shared_ptr<Node> n, int target){
 }
 
 std::shared_ptr<Node> BST::minimum(){
-
+  
   return nullptr;
 }
 
 std::shared_ptr<Node> BST::minimum(std::shared_ptr<Node> n){
-
+  // so it looks like I'll want to do the in order sort, then do a search
+  // for the value in the first index and get the pointer from that
   return nullptr;
 }
 
@@ -73,7 +74,8 @@ std::shared_ptr<Node> BST::maximum(){
 }
 
 std::shared_ptr<Node> BST::maximum(std::shared_ptr<Node> n){
-
+  // so it looks like I'll want to do the in order sort, then do a search
+  // for the value in the final index and get the pointer from that
   return nullptr;
 }
 
@@ -117,11 +119,14 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
 }
 
 void BST::deleteValue(int val){
-
+  deleteValue(search(val), val);
+  // this gets the node of the value to be deleted
 }
 
 std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
-
+  // if it has not children, return a nullptr or the pointer of its parent??
+  // otherwise, you will want to look to it's right, then go to the left
+  // and return the leftmost node (node with the smallest valueß)
   return nullptr;
 }
 
@@ -148,6 +153,7 @@ bool BST::isBST(std::shared_ptr<Node> n, int low, int high){
 }
 
 void BST::preOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
+  // rLR
   if (n != nullptr) {
     order.push_back(n);
     preOrder(n->left, order);
@@ -159,9 +165,25 @@ void BST::preOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &
 }
 
 void BST::inOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
-
+  // LrR
+  if (n != nullptr) {
+    inOrder(n->left, order);
+    order.push_back(n);
+    inOrder(n->right, order);
+    // I just had to change the fact that the driver was printing the values
+    // using a vector instead of the preOrder function itself
+    // so I just needed to push the values into the vector
+  }
 }
 
 void BST::postOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
-  
+  // LRr
+  if (n != nullptr) {
+    postOrder(n->left, order);
+    postOrder(n->right, order);
+    order.push_back(n);
+    // I just had to change the fact that the driver was printing the values
+    // using a vector instead of the preOrder function itself
+    // so I just needed to push the values into the vector
+  }
 }
