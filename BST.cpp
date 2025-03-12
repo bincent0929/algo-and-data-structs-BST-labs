@@ -126,7 +126,7 @@ void BST::deleteValue(int val){
 std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
   // if it has not children, return a nullptr or the pointer of its parent??
   // otherwise, you will want to look to it's right, then go to the left
-  // and return the leftmost node (node with the smallest valueß)
+  // and return the leftmost node (node with the smallest value)
   return nullptr;
 }
 
