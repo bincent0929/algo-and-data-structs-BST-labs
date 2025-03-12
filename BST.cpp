@@ -70,8 +70,18 @@ bool BST::isBST(std::shared_ptr<Node> n){
 }
 
 bool BST::isBST(std::shared_ptr<Node> n, int low, int high){
-
-  return false;
+  if (n = nullptr) {
+    return true;
+    // if there are no values
+  }
+  if (n->value < low || n->value > high) {
+    return false;
+    // if the value is smaller than the lowest
+    // or larger than the highest value
+  }
+  return isBST(n->left, low, n->value) && 
+  isBST(n->right, n->value, high);
+  // otherwise it will keep checking the rest of the values
 }
 
 void BST::preOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
