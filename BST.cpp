@@ -20,7 +20,7 @@ BST::BST(){
 BST::~BST(){}
 
 std::shared_ptr<Node> BST::search(int target){
-
+  // I think that this needs to be coded for lab3
   return nullptr;
 }
 
