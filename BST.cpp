@@ -6,6 +6,8 @@
 #include <limits.h>
 #include "BST.h"
 
+using namespace std;
+
 // ***do not change the headers***
 
 // you solutions go here
@@ -23,8 +25,18 @@ std::shared_ptr<Node> BST::search(int target){
 }
 
 std::shared_ptr<Node> BST::search(std::shared_ptr<Node> n, int target){
-
-  return nullptr;
+  if (n == nullptr) {
+    return nullptr;
+  }
+  else if (n->value == target) {
+    return n;
+  }
+  else if (n->value > target) {
+    return search(n->left, target);
+  }
+  else { // if n->value < target
+    return search(n->right, target);
+  }
 }
 
 std::shared_ptr<Node> BST::minimum(){
@@ -85,7 +97,13 @@ bool BST::isBST(std::shared_ptr<Node> n, int low, int high){
 }
 
 void BST::preOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
-
+  if (n != nullptr) {
+    cout << n->value;
+    preOrder(n->left);
+    preOrder(n->right);
+    // I'm not really sure what I should put for left and right
+    // the order reference is there for a reason
+  }
 }
 
 void BST::inOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
