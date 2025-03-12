@@ -60,11 +60,34 @@ std::shared_ptr<Node> BST::maximum(std::shared_ptr<Node> n){
 }
 
 void BST::insertValue(int val){
+  if (root == nullptr) {
+    root = std::shared_ptr<Node>(new Node(val));
+  }
+  else {
+    root = insertValue(root, val);
+  }
 }
 
 std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
-
-  return nullptr;
+  if (val < n->value) {
+    if(n->left != nullptr) {
+      n->left = insertValue(n->left, val);
+    }
+    else {
+      n->left = std::shared_ptr<Node>(new Node(val));
+    }
+  }
+  else if (val > n->value) {
+    if(n->right != nullptr) {
+      n->right = insertValue(n->left, val);
+    }
+    else {
+      n->right = std::shared_ptr<Node>(new Node(val));
+    }
+  }
+  // this is if n->value == val, ignore
+  // have to look into what this means
+  return n;
 }
 
 void BST::deleteValue(int val){
