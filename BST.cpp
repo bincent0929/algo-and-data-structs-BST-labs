@@ -65,6 +65,9 @@ std::shared_ptr<Node> BST::minimum(){
 std::shared_ptr<Node> BST::minimum(std::shared_ptr<Node> n){
   // so it looks like I'll want to do the in order sort, then do a search
   // for the value in the first index and get the pointer from that
+  std::vector<std::shared_ptr<Node>> order;
+  inOrder(n, order);
+
   return nullptr;
 }
 
