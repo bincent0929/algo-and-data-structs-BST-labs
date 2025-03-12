@@ -120,9 +120,7 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
 }
 
 void BST::deleteValue(int val){
-  deleteValue(search(val), val);
-  // this gets the node of the value to be deleted
-  // test
+  
 }
 
 std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
