@@ -99,10 +99,10 @@ bool BST::isBST(std::shared_ptr<Node> n, int low, int high){
 void BST::preOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
   if (n != nullptr) {
     cout << n->value;
-    preOrder(n->left);
-    preOrder(n->right);
+    preOrder(n->left, order);
+    preOrder(n->right, order);
     // I'm not really sure what I should put for left and right
-    // the order reference is there for a reason
+    // I just put the order there because it's a parameter not sure why it's needed
   }
 }
 
