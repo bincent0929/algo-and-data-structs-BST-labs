@@ -20,11 +20,29 @@ BST::BST(){
 BST::~BST(){}
 
 std::shared_ptr<Node> BST::search(int target){
-  // I think that this needs to be coded for lab3
-  return nullptr;
+  if (root == nullptr) {
+    return nullptr;
+    // if there's no root value
+  }
+  else if (root->value == target) {
+    return root;
+    // if the root is the desired value
+  }
+  else if (root->value > target) {
+    return search(root->left, target);
+    // if the root is greater than the target
+    // goes to search the left
+  }
+  else { // if n->value < target
+    return search(root->right, target);
+    // if the root is less than the target
+    // goes to search the right
+  }
 }
 
 std::shared_ptr<Node> BST::search(std::shared_ptr<Node> n, int target){
+  // same stuff as the driver function, 
+  // but searches down the given node
   if (n == nullptr) {
     return nullptr;
   }
@@ -62,9 +80,13 @@ std::shared_ptr<Node> BST::maximum(std::shared_ptr<Node> n){
 void BST::insertValue(int val){
   if (root == nullptr) {
     root = std::shared_ptr<Node>(new Node(val));
+    // creates a new root node and places the value there
   }
   else {
     root = insertValue(root, val);
+    // takes the value and root checks 
+    // if it should go on the left or right
+    // of the root
   }
 }
 
@@ -72,21 +94,25 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
   if (val < n->value) {
     if(n->left != nullptr) {
       n->left = insertValue(n->left, val);
+      // if there's already a node, place it there
     }
     else {
       n->left = std::shared_ptr<Node>(new Node(val));
+      // if there isn't a node, create a new node and place it there
     }
   }
   else if (val > n->value) {
     if(n->right != nullptr) {
-      n->right = insertValue(n->left, val);
+      n->right = insertValue(n->right, val);
+      // if there's already a node, place it there
     }
     else {
       n->right = std::shared_ptr<Node>(new Node(val));
+      // if there isn't a node, create a new node and place it there
     }
   }
   // this is if n->value == val, ignore
-  // have to look into what this means
+  // basically if the value is already where it goes
   return n;
 }
 
@@ -100,12 +126,13 @@ std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
 }
 
 bool BST::isBST(std::shared_ptr<Node> n){
-
-  return false;
+  return isBST(n, 0, 10000);
+  // 0 and 10000 are just numbers that are low and higher than
+  // any value that's inserted by the tests
 }
 
 bool BST::isBST(std::shared_ptr<Node> n, int low, int high){
-  if (n = nullptr) {
+  if (n == nullptr) {
     return true;
     // if there are no values
   }
@@ -117,15 +144,17 @@ bool BST::isBST(std::shared_ptr<Node> n, int low, int high){
   return isBST(n->left, low, n->value) && 
   isBST(n->right, n->value, high);
   // otherwise it will keep checking the rest of the values
+  // to the right and left of the current value
 }
 
 void BST::preOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
   if (n != nullptr) {
-    cout << n->value;
+    order.push_back(n);
     preOrder(n->left, order);
     preOrder(n->right, order);
-    // I'm not really sure what I should put for left and right
-    // I just put the order there because it's a parameter not sure why it's needed
+    // I just had to change the fact that the driver was printing the values
+    // using a vector instead of the preOrder function itself
+    // so I just needed to push the values into the vector
   }
 }
 
