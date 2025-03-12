@@ -58,8 +58,7 @@ std::shared_ptr<Node> BST::search(std::shared_ptr<Node> n, int target){
 }
 
 std::shared_ptr<Node> BST::minimum(){
-  
-  return nullptr;
+  return minimum(root);
 }
 
 std::shared_ptr<Node> BST::minimum(std::shared_ptr<Node> n){
@@ -67,21 +66,20 @@ std::shared_ptr<Node> BST::minimum(std::shared_ptr<Node> n){
   // for the value in the first index and get the pointer from that
   std::vector<std::shared_ptr<Node>> order;
   inOrder(n, order);
-
-  return nullptr;
+  return order[0];
 }
 
 std::shared_ptr<Node> BST::maximum(){
-  
-  return nullptr;
+  return maximum(root);
 }
 
 std::shared_ptr<Node> BST::maximum(std::shared_ptr<Node> n){
-  // so it looks like I'll want to do the in order sort, then do a search
-  // for the value in the final index and get the pointer from that
-  return nullptr;
+  std::vector<std::shared_ptr<Node>> order;
+  inOrder(n, order);
+  return order[order.size() - 1];
 }
-
+// so it looks like I'll want to do the in order sort, then do a search
+  // for the value in the final index and get the pointer from that
 void BST::insertValue(int val){
   if (root == nullptr) {
     root = std::shared_ptr<Node>(new Node(val));
