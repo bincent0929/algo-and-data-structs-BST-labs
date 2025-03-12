@@ -120,14 +120,28 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
 }
 
 void BST::deleteValue(int val){
-  deleteValue(search(root, val), val);
+  root = deleteValue(search(root, val), val);
+  // pretty sure this needs to be changed
 }
 
 std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
   // if it has not children, return a nullptr or the pointer of its parent??
   // otherwise, you will want to look to it's right, then go to the left
   // and return the leftmost node (node with the smallest value)
-  return nullptr;
+  if (n->right == nullptr && n->left == nullptr) {
+    n = nullptr;
+  }
+  else if (n->right != nullptr) {
+    // I can sort the values with n->right as a root then take the smallest value's pointer
+    // or I can keep recursively going left until there are no more values left of a node
+
+  }
+  // if n->right is null, then go and grab the greatest value's pointer from the left hand side
+  else if (n->left != nullptr) {
+
+  }
+
+  return n; // why does this return a pointer?
 }
 
 bool BST::isBST(std::shared_ptr<Node> n){
