@@ -135,8 +135,7 @@ void BST::deleteValue(int val){
   else if (root->right != nullptr && root->left != nullptr) {
     // go to the right and then look for the leftmost node
     // save that node's value to the root, then delete the node
-    val = 0;
-    deleteValue(root->right, val);
+    minimum(root->right);
     // leftMost must be deleted
     // the right side must be checked
   }
@@ -147,36 +146,7 @@ void BST::deleteValue(int val){
 }
 
 std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
-  if (n->right == nullptr && n->left == nullptr) {
-    // if no children
-    root->value = n->value;
-    n = nullptr;
-    return nullptr;
-  }
-
-  if (val = 0) { // checking for leftMost
-    // this requires recursively checking whether the leftMost also has a
-    // right child, because then it must be replaced
-    if (n->left == nullptr) {
-      root->value = n->value;
-
-      if (n->right == nullptr) {
-        return nullptr;
-      }
-      else {
-
-      }
-    }
-  }
-
-  if (val = 1) { // checking for rightMost
-    if (n->right != nullptr) {
-      return n;
-    }
-    else {
-      return deleteValue(n->right, val);
-    }
-  }
+  
 }
 
 bool BST::isBST(std::shared_ptr<Node> n){
