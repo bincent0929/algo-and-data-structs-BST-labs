@@ -124,11 +124,15 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
 void BST::deleteValue(int val){
   root = search(root, val);
   // sets the root to the node of the value to be deleted
+  // after this the value is used to indicate whether the left or right
+  // subtree is being searched for a value
+  // val = 0 is the right | val = 1 is the left
   if (root->right == nullptr && root->left == nullptr) {
     root = nullptr;
     // if the node has no children, it's set as null/deleted
   }
   else if (root->right != nullptr && root->left != nullptr) {
+    val = 0;
     // look for the leftmost node
     // get it's value
     // save the value to the node of the value being deleted
@@ -140,11 +144,25 @@ void BST::deleteValue(int val){
     }
     else {
       // recursively go through the nodes on the left until there are no more
-      root->value = deleteValue(root->right->left, )->value;
+      std::shared_ptr<Node> leftMostNode = deleteValue(root->right->left, val);
+      root->value = leftMostNode->value;
+      leftMostNode = nullptr;
+      size -= 1;
     }
   }
   else if (root->right == nullptr) {
-    
+    val = 1;
+    if (root->left->right == nullptr) {
+      root->value = root->left->value;
+      root->left = nullptr;
+      size -= 1;
+    }
+    else {
+      std::shared_ptr<Node> righttMostNode = deleteValue(root->left->right, val);
+      root->value = righttMostNode->value;
+      righttMostNode = nullptr;
+      size -= 1;
+    }
   }
 }
 
@@ -154,11 +172,21 @@ std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
   // and return the leftmost node (node with the smallest value)
   // base case is n->left being null
   // if it's null, then save the pointer of the current node to the location of the deleted node
-  if (n->left == nullptr) {
-    return n;
+  if (val = 0) {
+    if (n->left == nullptr) {
+      return n;
+    }
+    else if (n->left != nullptr) {
+      return deleteValue(n->left, val);
+    }
   }
-  else if (n->left != nullptr) {
-    return deleteValue(n->left, );
+  else {
+    if (n->right == nullptr) {
+      return n;
+    }
+    else if (n->right != nullptr) {
+      return deleteValue(n->right, val);
+    }
   }
 }
 
