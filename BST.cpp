@@ -123,6 +123,8 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
 
 void BST::deleteValue(int val){
   root = search(root, val);
+  std::shared_ptr<Node> leftMostNode;
+  std::shared_ptr<Node> rightMostNode;
   // sets the root to the node of the value to be deleted
   // after this the value is used to indicate whether the left or right
   // subtree is being searched for a value
@@ -135,13 +137,18 @@ void BST::deleteValue(int val){
   else if (root->right != nullptr && root->left != nullptr) {
     // go to the right and then look for the leftmost node
     // save that node's value to the root, then delete the node
-    minimum(root->right);
+    leftMostNode = minimum(root->right);
+    root->value = leftMostNode->value;
+    if (leftMostNode->right != nullptr) {
+      
+    }
     // leftMost must be deleted
     // the right side must be checked
   }
   else if (root->right == nullptr) {
     // go to the left and then look for its rightmost node
     // save that node's value to the root, then delete the node
+    root->value = maximum(root->left)->value;
   }
 }
 
