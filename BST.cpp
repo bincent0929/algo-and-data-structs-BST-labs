@@ -118,8 +118,6 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
       // if there isn't a node, create a new node and place it there
     }
   }
-  // this is if n->value == val, ignore
-  // basically if the value is already where it goes
   return n;
 }
 
@@ -131,59 +129,48 @@ void BST::deleteValue(int val){
   // val = 0 is the right | val = 1 is the left
   if (root->right == nullptr && root->left == nullptr) {
     root = nullptr;
+    size -= 1;
     // if the node has no children, it's set as null/deleted
   }
   else if (root->right != nullptr && root->left != nullptr) {
+    // go to the right and then look for the leftmost node
+    // save that node's value to the root, then delete the node
     val = 0;
-    // look for the leftmost node
-    // get it's value
-    // save the value to the node of the value being deleted
-    // then set the previous node of the new value to nullptr
-    if (root->right->left == nullptr) {
-      root->value = root->right->value;
-      root->right = nullptr;
-      size -= 1;
-    }
-    else {
-      // recursively go through the nodes on the left until there are no more
-      std::shared_ptr<Node> leftMostNode = deleteValue(root->right->left, val);
-      root->value = leftMostNode->value;
-      leftMostNode = nullptr;
-      size -= 1;
-    }
+    deleteValue(root->right, val);
+    // leftMost must be deleted
+    // the right side must be checked
   }
   else if (root->right == nullptr) {
-    val = 1;
-    if (root->left->right == nullptr) {
-      root->value = root->left->value;
-      root->left = nullptr;
-      size -= 1;
-    }
-    else {
-      std::shared_ptr<Node> righttMostNode = deleteValue(root->left->right, val);
-      root->value = righttMostNode->value;
-      righttMostNode = nullptr;
-      size -= 1;
-    }
+    // go to the left and then look for its rightmost node
+    // save that node's value to the root, then delete the node
   }
 }
 
 std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
-  // if it has no children, return a nullptr or the pointer of its parent??
-  // otherwise, you will want to look to it's right, then go to the left
-  // and return the leftmost node (node with the smallest value)
-  // base case is n->left being null
-  // if it's null, then save the pointer of the current node to the location of the deleted node
-  if (val = 0) {
+  if (n->right == nullptr && n->left == nullptr) {
+    // if no children
+    root->value = n->value;
+    n = nullptr;
+    return nullptr;
+  }
+
+  if (val = 0) { // checking for leftMost
+    // this requires recursively checking whether the leftMost also has a
+    // right child, because then it must be replaced
     if (n->left == nullptr) {
-      return n;
-    }
-    else {
-      return deleteValue(n->left, val);
+      root->value = n->value;
+
+      if (n->right == nullptr) {
+        return nullptr;
+      }
+      else {
+
+      }
     }
   }
-  else {
-    if (n->right == nullptr) {
+
+  if (val = 1) { // checking for rightMost
+    if (n->right != nullptr) {
       return n;
     }
     else {
@@ -228,6 +215,8 @@ void BST::preOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &
 
 void BST::inOrder(std::shared_ptr<Node> n, std::vector<std::shared_ptr<Node>> &order){
   // LrR
+  // from root check if the left is null
+  // if it isn't add the pointer of the left
   if (n != nullptr) {
     inOrder(n->left, order);
     order.push_back(n);
