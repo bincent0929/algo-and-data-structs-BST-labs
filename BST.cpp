@@ -136,8 +136,16 @@ void BST::deleteValue(int val){
     leftMostNode = minimum(root->right);
     root->value = leftMostNode->value;
 
-    if (leftMostNode->right != nullptr) {
-      leftMostNode->value = leftMostNode->right->value;
+    if (leftMostNode->right == nullptr) {
+      leftMostNode = nullptr;
+      size -= 1;
+    }
+    else { // if leftMostNode->right != nullptr
+      // update the node's value to the right's value
+      // then delete the right
+      // I need to recursively check through until
+      // there are no more children
+      deleteValue(leftMostNode->right, val);
     }
     // leftMost must be deleted
     // the right side must be checked
@@ -156,7 +164,33 @@ void BST::deleteValue(int val){
 }
 
 std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
-  
+  std::shared_ptr<Node> leftMostNode;
+
+  if (n->right == nullptr && n->left == nullptr) {
+    return nullptr;
+  }
+  else if (n->right != nullptr && n->left != nullptr) {
+    leftMostNode = minimum(n->right);
+    n->value = leftMostNode->value;
+
+    if (leftMostNode->right == nullptr) {
+      leftMostNode = nullptr;
+      return nullptr;
+    }
+    else {
+      deleteValue(leftMostNode->right, val);
+    }
+  }
+  else {
+    if (n->right == nullptr) {
+      n->value = n->left->value;
+      // delete left node
+    }
+    else { // if root->left == nullptr
+      n->value = n->right->value;
+      // delete right node
+    }
+  }
 }
 
 bool BST::isBST(std::shared_ptr<Node> n){
