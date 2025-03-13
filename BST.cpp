@@ -153,10 +153,14 @@ void BST::deleteValue(int val){
   else {
     if (root->right == nullptr) {
       root->value = root->left->value;
+      
+      deleteValue(root->left, val);
       // delete left node
     }
     else { // if root->left == nullptr
       root->value = root->right->value;
+
+      deleteValue(root->right, val);
       // delete right node
     }
   }
@@ -167,6 +171,7 @@ std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
   std::shared_ptr<Node> leftMostNode;
 
   if (n->right == nullptr && n->left == nullptr) {
+    n = nullptr;
     return nullptr;
   }
   else if (n->right != nullptr && n->left != nullptr) {
@@ -183,11 +188,15 @@ std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
   }
   else {
     if (n->right == nullptr) {
-      n->value = n->left->value;
+      root->value = root->left->value;
+      
+      deleteValue(root->left, val);
       // delete left node
     }
     else { // if root->left == nullptr
-      n->value = n->right->value;
+      root->value = root->right->value;
+
+      deleteValue(root->right, val);
       // delete right node
     }
   }
