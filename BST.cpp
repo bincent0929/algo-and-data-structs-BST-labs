@@ -83,10 +83,15 @@ std::shared_ptr<Node> BST::maximum(std::shared_ptr<Node> n){
 void BST::insertValue(int val){
   if (root == nullptr) {
     root = std::shared_ptr<Node>(new Node(val));
+    size += 1;
     // creates a new root node and places the value there
   }
   else {
-    insertValue(root, val);
+    std::shared_ptr<Node> newValueNode = insertValue(root, val);
+
+    if (newValueNode != nullptr) {
+      size += 1;
+    }
     // takes the value and root checks 
     // if it should go on the left or right
     // of the root
@@ -102,7 +107,7 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
     }
     else {
       n->left = std::shared_ptr<Node>(new Node(val));
-      size += 1;
+      return n->left;
       // if there's no value to the left, place the value
       // in a new node there
     }
@@ -114,15 +119,16 @@ std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
     }
     else {
       n->right = std::shared_ptr<Node>(new Node(val));
-      size += 1;
+      return n->right;
       // if there isn't a node, create a new node and place it there
     }
   }
-  return n;
+  return nullptr;
+  // if the value was already in a node
 }
 
 void BST::deleteValue(int val){
-  deleteValue(root, val);
+  root = deleteValue(root, val);
 }
 
 std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
@@ -131,23 +137,32 @@ std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
   }
 
   if (val < n->value) {
-      n->left = deleteValue(n->left, val);
+    n->left = deleteValue(n->left, val);
   }
   else if (val > n->value) {
     n->right = deleteValue(n->right, val);
   }
   else {
     if (n->left == nullptr) {
-      return n->right;
+      // only right child present
+      std::shared_ptr<Node> temp = n->right;
+      n = nullptr;
+      size--;
+      return temp;
     }
-    else if (n->right == nullptr) {
-      return n->left;
+    
+    if (n->right == nullptr) {
+      // only left child present
+      std::shared_ptr<Node> temp = n->left;
+      n = nullptr;
+      size--;
+      return temp;
     }
-    else {
-      std::shared_ptr<Node> temp = minimum(n->right);
-      n->value = temp->value;
-      n->right = deleteValue(n->right, temp->value);
-    }
+
+    // two children present
+    std::shared_ptr<Node> temp = minimum(n->right);
+    n->value = temp->value;
+    n->right = deleteValue(n->right, temp->value);
   }
   return n;
 }
