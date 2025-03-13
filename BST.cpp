@@ -86,7 +86,7 @@ void BST::insertValue(int val){
     // creates a new root node and places the value there
   }
   else {
-    root = insertValue(root, val);
+    insertValue(root, val);
     // takes the value and root checks 
     // if it should go on the left or right
     // of the root
@@ -96,19 +96,21 @@ void BST::insertValue(int val){
 std::shared_ptr<Node> BST::insertValue(std::shared_ptr<Node> n, int val){
   if (val < n->value) {
     if(n->left != nullptr) {
-      n->left = insertValue(n->left, val);
-      // if there's already a node, place it there
+      return insertValue(n->left, val);
+      // if there is already a value to the left
+      // recursively called the function with the left value
     }
     else {
       n->left = std::shared_ptr<Node>(new Node(val));
       size += 1;
-      // if there isn't a node, create a new node and place it there
+      // if there's no value to the left, place the value
+      // in a new node there
     }
   }
   else if (val > n->value) {
     if(n->right != nullptr) {
-      n->right = insertValue(n->right, val);
-      // if there's already a node, place it there
+      return insertValue(n->right, val);
+      // 
     }
     else {
       n->right = std::shared_ptr<Node>(new Node(val));
@@ -176,7 +178,7 @@ std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
     if (n->left == nullptr) {
       return n;
     }
-    else if (n->left != nullptr) {
+    else {
       return deleteValue(n->left, val);
     }
   }
@@ -184,7 +186,7 @@ std::shared_ptr<Node> BST::deleteValue(std::shared_ptr<Node> n, int val){
     if (n->right == nullptr) {
       return n;
     }
-    else if (n->right != nullptr) {
+    else {
       return deleteValue(n->right, val);
     }
   }
